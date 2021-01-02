@@ -1367,7 +1367,7 @@ static int http_client_request (client_t *client)
 
                 char data = (char *)malloc(refbuf->len+1);
                 memcpy(data, refbuf->data, refbuf->len);
-                data[len] = 0;
+                data[refbuf->len] = 0;
                 INFO1 ("Looking for x-forwarded-for header in %s", &data);
 
                 str = httpp_getvar (client->parser, "x-forwarded-for");
