@@ -1366,9 +1366,9 @@ static int http_client_request (client_t *client)
                 const char *str;
 
                 str = httpp_getvar (client->parser, "x-forwarded-for");
+                INFO1 ("Looking for header in %s", str);
                 if (str)
                 {
-                    DEBUG2 ("Looking for x-forwarded-for header in %s", str);
                     if (_find_xforward_addr (config_get_config(), client->connection.ip) != NULL)
                     {
                         config_release_config();
