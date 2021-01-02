@@ -1365,8 +1365,13 @@ static int http_client_request (client_t *client)
             {
                 const char *str;
 
+                char data = (char *)malloc(refbuf->len+1);
+                memcpy(data, refbuf->data, refbuf->len);
+                data[len] = 0;
+                INFO1 ("Looking for x-forwarded-for header in %s", data);
+
                 str = httpp_getvar (client->parser, "x-forwarded-for");
-                INFO1 ("Looking for header in %s", str);
+ 
                 if (str)
                 {
                     if (_find_xforward_addr (config_get_config(), client->connection.ip) != NULL)
