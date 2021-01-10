@@ -1296,7 +1296,6 @@ static int http_client_request (client_t *client)
     {
         client->shared_data = refbuf = refbuf_new (PER_CLIENT_REFBUF_SIZE);
         refbuf->len = 0; // for building up the request coming in
-        INFO1 ("Looking for x-forwarded-for header in %s", refbuf);
 
    }
     remaining = PER_CLIENT_REFBUF_SIZE - 1 - refbuf->len;
@@ -1366,6 +1365,11 @@ static int http_client_request (client_t *client)
             if (httpp_parse (client->parser, refbuf->data, refbuf->len))
             {
                 const char *str;
+
+                char data = (char *)malloc(refbuf->len+1);
+                memcpy(data, refbuf->data, refbuf->len);
+                data[refbuf->len] = 0;
+                INFO1 ("Looking for x-forwarded-for header in %s", &data);
 
                 str = httpp_getvar (client->parser, "x-forwarded-for");
  
